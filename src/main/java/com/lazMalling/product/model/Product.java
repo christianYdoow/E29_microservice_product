@@ -2,12 +2,10 @@ package com.lazMalling.product.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
+@Data
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,6 +15,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long productId;
 
     @Column(name = "product_name")
@@ -31,7 +30,7 @@ public class Product {
     @Column(name="product_category")
     private String productCategory;
 
-    @Column(name = "product_userId")
+    @Column(name = "product_user_id")
     private long userId;
 
 
