@@ -3,6 +3,8 @@ package com.lazMalling.product.controller;
 import com.lazMalling.product.model.Product;
 import com.lazMalling.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -14,11 +16,9 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    private final ProductService productService;
+    private  ProductService productService;
 
-    public ProductController (ProductService productService){
-        this.productService=productService;
-    }
+
 
     //--------------------------------get all client user-----------------------------------------------
     @GetMapping("/getAllClientUser")
@@ -32,29 +32,34 @@ public class ProductController {
     }
     //--------------------------------post new product ------------------------------------------------
     @PostMapping("/products")
-    public @ResponseBody String postProduct(@RequestBody Product product){
+    public @ResponseBody ResponseEntity<HttpStatus> postProduct(@RequestBody Product product){
         return productService.postProduct(product);
     }
-//    @PostMapping("/products")
-//    public @ResponseBody Product postProduct(@RequestBody Product product){
-//        return productService.postProduct(product);
-//    }
+    //--------------------------------get all product ------------------------------------------------
     @GetMapping("/products")
     public List<Product> getAllProduct(){
         return  productService.getAllProduct();
     }
+    //--------------------------------get all product by id ------------------------------------------------
     @GetMapping("/products/{productId}")
     public Optional<Product> getProductById(@PathVariable long productId){
         return productService.getProductById(productId);
     }
+    //--------------------------------get all product by id ------------------------------------------------
+    @GetMapping("/getAllProductByUserId/{userId}")
+    public  List<Product> getAllProductByUserId(@PathVariable long userId){
+        return  productService.getAllProductByUserId(userId);
+    }
+    //--------------------------------update product by id ------------------------------------------------
     @PutMapping("/product/{productId}")
-    public  String updateProductById(@PathVariable long productId,Product product){
+    public  ResponseEntity<HttpStatus>   updateProductById(@PathVariable long productId,@RequestBody Product product){
         return  productService.updateProductById(productId,product);
     }
 
     @DeleteMapping("/product/{productId}")
-    public void deleteUserById(@PathVariable long productId){
-        productService.deleteProductById(productId);
+    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable long productId){
+
+        return productService.deleteProductById(productId);
     }
 
 

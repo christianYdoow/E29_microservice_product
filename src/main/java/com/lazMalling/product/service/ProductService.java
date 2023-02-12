@@ -3,11 +3,17 @@ package com.lazMalling.product.service;
 import com.lazMalling.product.dto.UserDto;
 import com.lazMalling.product.model.Product;
 import com.lazMalling.product.repository.ProductRepository;
+
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.yaml.snakeyaml.events.Event;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -43,28 +49,17 @@ public class ProductService {
     }
 
     //-----------------------------------------create new product-----------------------------------------------
-//    public Product postProduct(Product product){
-//        Product product1=new Product();
-//        String userRole=getClientUserByRole(product.getUserId());
-//        String regex="(?i)seller";
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher match= pattern.matcher(userRole);
-//        if(match.matches()){
-//             product1=productRepository.save(product);
-//        }
-//        return product1;
-//    }
 
-    public String postProduct(Product product){
+    public ResponseEntity<HttpStatus> postProduct(Product product){
         String userRole=getClientUserByRole(product.getUserId());
         String regex="(?i)seller";
         Pattern pattern = Pattern.compile(regex);
         Matcher match= pattern.matcher(userRole);
         if(match.matches()){
             productRepository.save(product);
-            return "Product successfully added";
+            return new  ResponseEntity<>(HttpStatus.OK);
         }else {
-            return "Product Not successfully added";
+            return new  ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
     //-------------------------------------------get all the product---------------------------------------------
@@ -76,9 +71,22 @@ public class ProductService {
     public Optional<Product> getProductById(long productId){
         return productRepository.findById(productId);
     }
+    //-------------------------------------get all the product using user id-----------------------------------
+    public List<Product> getAllProductByUserId(long userId){
+        List<Product> products =getAllProduct();
+        List<Product> filteredProducts= new ArrayList<>();
+        for (Product product : products){
+            if(product.getUserId() == userId){
+                filteredProducts.add(product);
+            }
+        }
+        return filteredProducts;
+    }
+
+
 
     //------------------------------------------update product using product id-----------------------------------
-    public String updateProductById( long productId,Product product){
+    public ResponseEntity<HttpStatus> updateProductById( long productId,Product product){
 
         String userRole=getClientUserByRole(product.getUserId());
         String regex="(?i)seller";
@@ -87,15 +95,16 @@ public class ProductService {
         if(match.matches()){
             product.setProductId(productId);
             productRepository.save(product);
-            return "Product successfully added";
-
+            return new  ResponseEntity<>(HttpStatus.OK);
         }else {
-            return "Product Not successfully added";
+            return new  ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     //------------------------------------------delete product using product id------------------------------------
-    public void deleteProductById(long productId){
+    public ResponseEntity<HttpStatus> deleteProductById(long productId){
+
         productRepository.deleteById(productId);
+        return  new ResponseEntity<>(HttpStatus.OK);
     }
 }
