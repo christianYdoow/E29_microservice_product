@@ -16,13 +16,13 @@ The Product Service is responsible for managing the product catalog and handling
 
 
 - **postProduct** create new product
-- **getAllProduct** show all the product information it can be use for administrative purpose also this will be use to display all available product in the e-commerce app
-- **getUserById** show specific product .
-- **updateUserById** update product details that match the user id this functionalities is exclusively for seller
-- **deleteUserById** delete product that match the user id this functionalities is exclusively for seller
+- **getAllProduct** show all the product information it can be used for administrative purpose also this will be used to display all available product in the e-commerce app
+- **getProductById** show specific product .
+- **updateProductById** update product details that match the user id these functionalities is exclusively for seller
+- **deleteProductById** delete product that match the user id these functionalities is exclusively for seller
 
-- **getClientUserByRole**  this function help to determine whether the user role is buyer or seller this function is vital because this determine what functionalities will be for the buyer and for the  seller
-- **getAllProductByUserId** show all the product that is related   user (seller) id this functionalities can be use to show
+- **getClientUserByRole**  this function help to determine whether the user role is buyer or seller this function is vital because this determines what functionalities will be for the buyer and for the  seller
+- **getAllProductByUserId** show all the product that is related   user (seller) id this functionalities can be used to show
   all the product created by the user (Seller)
 
 
